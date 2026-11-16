@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F8EBDD">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="打开布丁狗的圣诞绘本，和朋友们一起烤饼干、装饰圣诞树、许下圣诞愿望，收下暖暖祝福。">
+<title>布丁狗的圣诞奇遇记｜Purin's Christmas Story</title>
+<style>
+:root{--paper:#fff8e8;--cream:#f8e9d4;--brown:#795039;--coffee:#9c6e4b;--gold:#d0a357;--red:#bd6e61;--green:#315b4a;--safe:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;overscroll-behavior:none}
+body{background:radial-gradient(ellipse at 50% 23%,#fffaf1,#eed8c6 80%);font-family:"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;color:var(--brown);-webkit-tap-highlight-color:transparent}
+button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #c99848;outline-offset:3px}
+.app{width:100%;min-height:100dvh;display:grid;place-items:center;padding:10px;overflow:hidden}
+.book{position:relative;width:min(100%,425px);height:min(850px,calc(100dvh - 20px));min-height:min(640px,calc(100dvh - 20px));border-radius:25px;overflow:hidden;box-shadow:0 12px 18px rgba(85,61,42,.09),0 30px 85px rgba(86,59,36,.23);background:#f5e8d5;isolation:isolate;border:1px solid rgba(255,255,255,.75)}
+.book:after{content:"";position:absolute;inset:7px;border:1px solid rgba(255,254,242,.65);border-radius:19px;pointer-events:none;z-index:40}
+.page{position:absolute;inset:0;opacity:0;visibility:hidden;transform:translateX(11%) scale(1.022);transition:opacity .55s ease,transform .65s cubic-bezier(.19,1,.22,1),visibility .55s;overflow:hidden;pointer-events:none;background:#f5e5ce;z-index:1}
+.page.is-before{transform:translateX(-11%) scale(.99)}.page.active{opacity:1;visibility:visible;transform:none;pointer-events:auto;z-index:3}
+.art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;user-select:none;-webkit-user-drag:none}
+.art-wash{position:absolute;inset:0;background:linear-gradient(180deg,rgba(46,39,31,.12) 0%,transparent 21%,transparent 48%,rgba(67,44,30,.06) 57%,rgba(35,27,21,.35) 100%);pointer-events:none}
+.page:not(.cover) .art-wash{background:linear-gradient(180deg,rgba(73,51,32,.10),transparent 33%,rgba(69,47,30,.03) 53%,rgba(57,38,23,.3) 100%)}
+.page--final{background:linear-gradient(160deg,#fff8e7 10%,#efd6b6 100%)}.page--final .art{opacity:.22;filter:blur(2px) saturate(.84);transform:scale(1.04)}
+.topline{position:absolute;left:0;right:0;top:0;padding:24px 24px 10px;display:flex;justify-content:space-between;align-items:center;color:#fff9eb;text-shadow:0 2px 7px #44382e88;letter-spacing:2px;font-size:9px;font-weight:700;z-index:10}
+.topline .brand{letter-spacing:1.9px}.chapter-tag{background:rgba(255,251,235,.88);color:#936b47;text-shadow:none;border:1px solid rgba(255,255,255,.9);padding:7px 12px;border-radius:99px;font-size:9px;backdrop-filter:blur(12px)}
+.cover .topline{color:#855a43;text-shadow:none}.cover .chapter-tag{background:#fff6e5c9}
+.cover-heading{position:absolute;top:13%;width:100%;padding:0 22px;text-align:center;z-index:9;color:#805641;text-shadow:0 1px 0 #fff8e9c4}
+.cover-heading .overline{font-size:10px;font-weight:700;letter-spacing:3.5px;color:#a67c57}.cover-heading h1{font:500 clamp(32px,9.2vw,43px)/1.3 Georgia,"Noto Serif CJK SC","Songti SC",serif;margin:13px 0 8px;letter-spacing:3px}
+.cover-heading .sub{font-size:11px;letter-spacing:2.5px;color:#94694c}
+.caption-panel{position:absolute;left:18px;right:18px;bottom:100px;z-index:10;background:linear-gradient(145deg,rgba(255,250,234,.95),rgba(255,246,226,.92));border:1px solid rgba(255,255,249,.95);border-radius:22px;padding:19px 20px 17px;box-shadow:0 9px 30px rgba(69,40,23,.16);backdrop-filter:blur(13px)}
+.caption-panel:after{content:"";position:absolute;inset:6px;border:1px solid rgba(196,156,99,.25);border-radius:17px;pointer-events:none}
+.caption-panel .eyebrow{font-size:9px;letter-spacing:2.3px;color:#b88e60;font-weight:700;margin-bottom:5px}
+.caption-panel h2{font:500 24px/1.35 Georgia,"Noto Serif CJK SC","Songti SC",serif;margin:0 0 7px;color:#785039;letter-spacing:1px}
+.caption-panel p{font-size:12px;line-height:1.75;color:#906b4b;min-height:39px;margin:0 0 12px;white-space:pre-line}
+.scene-action{border:1px solid #cba678;border-radius:25px;padding:9px 16px;background:#fffaf0;color:#8a6145;font-size:11px;letter-spacing:1px;position:relative;z-index:1;box-shadow:0 3px 9px #8658321c}
+.scene-action.primary{background:#94613f;color:#fff9ed;border-color:#94613f}
+.cover-panel{bottom:106px;text-align:center}.cover-panel h2{font-size:20px}.cover-panel p{min-height:0}
+.cover .caption-panel{background:linear-gradient(160deg,rgba(255,250,234,.97),rgba(255,246,225,.91))}
+.footerbar{position:absolute;left:0;right:0;bottom:0;height:85px;padding:9px 17px calc(11px + var(--safe));z-index:30;background:linear-gradient(180deg,rgba(72,49,35,0) 0%,rgba(73,49,34,.42) 46%,rgba(62,41,30,.56) 100%);display:flex;align-items:flex-end;gap:12px;color:white}
+.nav-btn{height:39px;min-width:40px;border:1px solid rgba(255,255,255,.66);background:rgba(255,251,241,.95);color:#856049;border-radius:50%;box-shadow:0 3px 12px #513a2e30;font-size:17px;display:grid;place-items:center}
+.nav-btn:disabled{opacity:.42;cursor:default}.nav-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:41px}
+.progress{display:flex;gap:6px;align-items:center;justify-content:center}.dot{width:6px;height:6px;background:rgba(255,255,255,.56);border:0;border-radius:99px;padding:0;transition:width .25s,background .25s}.dot.selected{width:20px;background:#fff2cf}
+.nav-note{font-size:9px;letter-spacing:1.3px;color:#fff8e7;text-shadow:0 1px 4px #4e3520}.float-controls{position:absolute;top:63px;right:18px;z-index:20;display:flex;flex-direction:column;gap:8px}
+.round-control{width:36px;height:36px;border:1px solid rgba(255,251,234,.82);border-radius:50%;background:rgba(255,250,234,.88);color:#8e694f;display:grid;place-items:center;box-shadow:0 3px 14px #5a433326;backdrop-filter:blur(8px)}.round-control.on{background:#835e48;color:#fff9e6}
+.snow-layer,.sparkle-layer{position:absolute;inset:0;pointer-events:none;z-index:8;overflow:hidden}.snowflake{position:absolute;top:-30px;left:var(--x);font-size:var(--s);color:rgba(255,255,250,var(--a));text-shadow:0 0 4px #fff;animation:fall var(--d) linear var(--delay) infinite;will-change:transform}
+@keyframes fall{to{transform:translate3d(var(--drift),900px,0) rotate(190deg)}}
+@keyframes pulse{0%,100%{opacity:.45;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes pop{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}20%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.3) rotate(120deg);opacity:0}}
+.sparkle{position:absolute;left:var(--x);top:var(--y);color:#fff3b5;font-size:var(--sz);text-shadow:0 0 7px #ffe0a0;animation:pop .95s ease-out forwards;pointer-events:none}
+.magic-glow{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;background:radial-gradient(circle at 65% 39%,rgba(255,238,132,.25) 0,transparent 27%),radial-gradient(circle at 75% 58%,rgba(255,238,132,.16) 0,transparent 30%);transition:opacity .8s}.magic-glow.on{opacity:1;animation:pulse 3s ease-in-out infinite}
+.tap-zone{position:absolute;z-index:7;border:0;background:transparent;border-radius:50%;padding:0;outline-offset:5px}.tap-zone:after{content:"✧";position:absolute;inset:0;display:grid;place-items:center;color:#fff7c9;font-size:27px;text-shadow:0 0 8px #996b39,0 0 10px #fff;animation:pulse 2.5s infinite}
+.tap-zone.bake{left:47%;top:56%;width:52px;height:52px}.tap-zone.tree{left:63%;top:29%;width:56px;height:56px}.tap-zone.night{left:73%;top:21%;width:55px;height:55px}.tap-zone.cardtap{left:48%;top:52%;width:58px;height:58px}
+.toast{position:absolute;z-index:60;left:50%;top:16%;transform:translate(-50%,-9px);max-width:88%;min-width:190px;padding:11px 15px;text-align:center;background:rgba(101,67,44,.92);border:1px solid #f9e5bf88;box-shadow:0 10px 30px #543a2a50;border-radius:19px;font-size:12px;color:#fff7e2;pointer-events:none;opacity:0;transition:opacity .25s,transform .25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+/* last page: interactive postcard creation */
+.final-frame{position:absolute;z-index:9;inset:76px 17px 88px;display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:10px}
+.final-kicker{font-size:10px;letter-spacing:3px;color:#957252;text-align:center}.final-title{text-align:center;font:500 26px/1.3 Georgia,"Noto Serif CJK SC","Songti SC",serif;margin:0;color:#80573a}
+.postcard{position:relative;background:linear-gradient(135deg,#fffefa,#fff4dc);border:1px solid #fffef8;box-shadow:0 9px 25px #8a593a30;border-radius:21px;padding:23px 18px;text-align:center;min-height:182px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px}
+.postcard:before{content:"";inset:8px;position:absolute;pointer-events:none;border:1px dashed #cfa56d;border-radius:15px}.postcard .emblem{font-size:28px;line-height:1}.postcard .to{color:#98704e;font-size:12px;letter-spacing:1.3px}.postcard .message{color:#7d593e;font:500 15px/1.75 "Noto Serif CJK SC","Songti SC",serif;white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;padding:0 6px}.postcard .sign{color:#b0845b;font-size:10px;letter-spacing:2px}
+.edit{background:rgba(255,250,238,.90);border:1px solid rgba(255,255,255,.96);border-radius:17px;padding:12px 15px;display:grid;gap:6px;box-shadow:0 5px 18px #8a593a18;backdrop-filter:blur(12px)}
+.edit label{font-size:10px;letter-spacing:1px;color:#916b4c}.edit input,.edit textarea{width:100%;background:#fffefa;border:1px solid #e5d3bb;color:#795439;border-radius:9px;font-size:12px;padding:8px 10px;resize:none;outline-offset:1px}.edit textarea{min-height:62px;max-height:90px}.edit-actions{display:flex;gap:8px}.edit-actions button{flex:1;border-radius:22px;padding:10px 6px;font-size:11px;border:1px solid #c8aa83;color:#855b40;background:#fff9eb}.edit-actions .save{background:#8c5e42;color:#fffaf0;border-color:#8c5e42}
+.final-hint{text-align:center;font-size:10px;color:#936e50;margin:0}
+.counter{position:absolute;z-index:11;top:65px;left:20px;background:#fff8e8e6;border:1px solid #fff;padding:7px 12px;font-size:10px;border-radius:40px;color:#94694a}
+@media(max-width:360px){.cover-heading{top:11%}.cover-heading h1{font-size:31px}.caption-panel{padding:14px 15px 13px;bottom:87px}.caption-panel h2{font-size:20px}.caption-panel p{font-size:11px;margin-bottom:8px}.footerbar{height:75px}.final-frame{inset:60px 12px 74px;gap:7px}.postcard{min-height:153px;padding:12px}.postcard .message{font-size:13px}.edit{padding:9px}.edit textarea{min-height:49px}.edit input,.edit textarea{padding:6px 9px}.cover-panel{bottom:90px}}
+@media(max-height:715px){.cover-heading{top:9%}.caption-panel{bottom:84px;padding:13px 16px}.caption-panel h2{font-size:20px}.caption-panel p{margin-bottom:8px;min-height:0}.footerbar{height:74px}.topline{padding-top:18px}.float-controls{top:53px}.final-frame{inset:56px 15px 74px;gap:7px}.final-title{font-size:22px}.postcard{min-height:140px;padding:11px 16px;gap:6px}.postcard .emblem{font-size:20px}.postcard .message{font-size:12px}.edit{padding:8px 12px;gap:4px}.edit input,.edit textarea{padding:6px 9px}.edit textarea{min-height:42px}.final-hint{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+<!-- V4 MOBILE TOUCH -->
+
+/* V4 MOBILE TOUCH: comfortable targets, responsive story pages, tactile affordance */
+html{overscroll-behavior-x:none}
+button,a{touch-action:manipulation}
+.book,.page{touch-action:pan-y}
+.nav-btn{width:48px;min-width:48px;height:48px;font-size:25px;touch-action:manipulation}
+.round-control{width:46px;height:46px;font-size:20px;touch-action:manipulation}
+.float-controls{right:13px;top:62px}
+.scene-action{min-height:45px;padding:11px 18px;font-size:12px;touch-action:manipulation}
+.tap-zone{min-width:64px;min-height:64px;touch-action:manipulation}
+.tap-zone.bake{top:43%;left:48%}.tap-zone.tree{top:27%;left:63%}.tap-zone.night{top:19%;left:72%}.tap-zone.cardtap{top:38%;left:49%}
+.tap-zone:active:after{transform:scale(1.35);color:#fff}
+.progress{gap:0}.progress .dot{position:relative;width:28px;height:44px;min-width:28px;background:transparent;border-radius:20px;padding:0;touch-action:manipulation}
+.progress .dot::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;background:#fff9df99;border-radius:10px;transform:translate(-50%,-50%);transition:width .25s,background .25s}
+.progress .dot.selected{width:28px;background:transparent}.progress .dot.selected::after{width:23px;background:#fff4d2}
+.nav-center{gap:0;height:48px}.nav-note{letter-spacing:.4px;font-size:10px}
+.page.active.dragging{transition:none!important;transform:translate3d(var(--drag-x,0px),0,0) rotate(var(--drag-rotate,0deg));box-shadow:-12px 0 38px #412b2444}
+.page.peeking{opacity:1;visibility:visible;transform:translateX(var(--peek-x,0%)) scale(1);transition:none;z-index:2}
+.book.is-swiping .caption-panel,.book.is-swiping .topline{pointer-events:none}
+.scene-action:active,.nav-btn:not(:disabled):active,.round-control:active{transform:scale(.94);filter:brightness(.97)}
+/* Keep form scrollable with the on-screen keyboard visible. */
+.page--final{overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.page--final::-webkit-scrollbar{display:none}
+.page--final .final-frame{position:relative;inset:auto;margin:0 16px;min-height:100%;height:auto;justify-content:center;padding:79px 0 96px;gap:9px}
+.page--final .final-frame>.edit{flex-shrink:0}
+.edit input,.edit textarea{min-height:45px;font-size:16px;touch-action:auto}
+.edit textarea{min-height:68px}
+.edit-actions button{min-height:46px;font-size:12px}
+.postcard{flex-shrink:0}
+.page--final .art{position:fixed;inset:0;pointer-events:none}
+/* Native-style image sheet so iOS and WeChat users can long-press the PNG. */
+.poster-sheet[hidden]{display:none!important}
+.poster-sheet{position:fixed;inset:0;z-index:9999;background:rgba(52,37,29,.76);display:flex;align-items:center;justify-content:center;padding:max(17px,env(safe-area-inset-top)) 19px max(17px,env(safe-area-inset-bottom));backdrop-filter:blur(9px)}
+.poster-inner{display:flex;flex-direction:column;align-items:center;gap:10px;width:min(100%,390px);max-height:100%;background:#fff9ea;border:2px solid #fffef5;border-radius:23px;padding:14px 14px 16px;box-shadow:0 14px 55px #33241e70;overflow-y:auto}
+.poster-title{margin:0;font:600 16px Georgia,"Songti SC",serif;color:#81543b}
+.poster-description{margin:0;font-size:11px;color:#a07956;text-align:center}
+.poster-image{display:block;max-width:100%;height:auto;max-height:min(63dvh,600px);object-fit:contain;border:1px solid #dec7a9;border-radius:12px;-webkit-touch-callout:default;user-select:auto}
+.poster-buttons{display:flex;gap:9px;width:100%}
+.poster-buttons button,.poster-buttons a{flex:1;min-height:44px;display:grid;place-items:center;border-radius:25px;border:1px solid #ba9371;background:#fffdf5;color:#81563c;font-size:13px;text-decoration:none;padding:7px 10px;touch-action:manipulation}
+.poster-buttons .download{background:#936547;border-color:#936547;color:white}
+.poster-buttons #shareImageBtn{background:#47715c;border-color:#47715c;color:#fff}
+.poster-tip{margin:0;text-align:center;font-size:11px;color:#9d7153;line-height:1.5}
+/* Landscape phones can scroll down to the ending instead of cropping the form. */
+@media(orientation:landscape) and (max-height:500px){html,body{overscroll-behavior-y:auto}.app{min-height:100dvh;place-items:start center;overflow:visible}.book{height:680px;min-height:680px;max-width:425px}.page--final .final-frame{justify-content:flex-start;padding-top:100px}.cover-heading{top:13%}}
+@media(max-height:680px){.poster-image{max-height:53dvh}.poster-inner{gap:7px;padding:11px}.poster-tip{font-size:10px}.poster-title{font-size:15px}}
+@media(max-height:600px){.page--final .final-frame{padding-top:54px;padding-bottom:84px;gap:4px}.page--final .final-kicker{font-size:9px}.page--final .final-title{font-size:19px}.page--final .postcard{min-height:116px;padding:8px;gap:4px}.page--final .postcard .emblem{font-size:19px}.page--final .postcard .message{font-size:11px;line-height:1.45}.page--final .postcard .sign{font-size:9px}.page--final .edit-actions button{font-size:11px;min-height:44px}.page--final .final-hint{font-size:9px}}
+@media(max-height:715px){.page--final .final-frame{padding-top:70px;padding-bottom:85px;gap:7px}.postcard{min-height:126px;padding:10px;gap:5px}.edit{gap:4px;padding:8px 11px}.edit textarea{min-height:56px}.edit input,.edit textarea{min-height:43px;padding:7px 9px}.final-title{font-size:21px}}
+@media(max-width:360px){.page--final .final-frame{margin:0 12px}.float-controls{top:55px;right:11px}.round-control{width:43px;height:43px}.nav-btn{width:45px;min-width:45px;height:45px}.poster-buttons{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){.page.active.dragging{transform:none!important}.page.peeking{opacity:0;visibility:hidden}}
+</style>
+</head>
+<body>
+<div class="app"><main class="book" id="book" aria-label="布丁狗的圣诞奇遇记，互动绘本">
+  <section class="page cover active" data-page="0" aria-label="绘本封面">
+    <img class="art" src="assets/cover.webp" alt="布丁狗抱着礼物和布丁，走进雪中的圣诞小镇，四周是温暖的灯火和朋友" draggable="false">
+    <div class="art-wash"></div>
+    <div class="topline"><span class="brand">PURIN'S CHRISTMAS STORY</span><span class="chapter-tag">圣诞限定绘本</span></div>
+    <div class="cover-heading"><div class="overline">A LITTLE CHRISTMAS STORY</div><h1>布丁狗的<br>圣诞奇遇记</h1><div class="sub">一本装着温暖与甜蜜的冬日绘本</div></div>
+    <div class="caption-panel cover-panel"><div class="eyebrow">CHRISTMAS EVE · 2026</div><h2>叮咚，有一份幸福正在派送</h2><p>和布丁狗一起，翻开这份软绵绵的圣诞惊喜。</p><button class="scene-action primary" data-next>打开故事书　✦</button></div>
+  </section>
+  <section class="page" data-page="1" aria-label="第一章，甜甜的圣诞准备">
+    <img class="art" src="assets/baking.webp" alt="布丁狗戴着圣诞帽，在热闹温暖的小厨房里与朋友们一起烘焙布丁和星星饼干" draggable="false">
+    <div class="art-wash"></div><div class="topline"><span class="brand">CHAPTER 01</span><span class="chapter-tag">甜甜的准备</span></div>
+    <button class="tap-zone bake" aria-label="摸摸饼干，收集甜蜜" data-action="bake"></button>
+    <div class="caption-panel"><div class="eyebrow">01 / THE SWEET BEGINNING</div><h2>甜甜的圣诞准备</h2><p>厨房里飘着奶油香。布丁狗悄悄说：<br>「第一块星星饼干，想送给你。」</p><button class="scene-action" data-action="bake">收下一块星星饼干　☆</button></div>
+    <span class="counter" id="cookieCount" hidden>🍪 已收集 0 块</span>
+  </section>
+  <section class="page" data-page="2" aria-label="第二章，装饰圣诞树">
+    <img class="art" src="assets/decorating.webp" alt="布丁狗站在小木凳上和朋友们布置圣诞树，树上有布丁挂件、星星和暖黄灯串" draggable="false">
+    <div class="art-wash"></div><div class="magic-glow" id="treeGlow"></div>
+    <div class="topline"><span class="brand">CHAPTER 02</span><span class="chapter-tag">许一个小心愿</span></div>
+    <button class="tap-zone tree" aria-label="点亮圣诞树" data-action="tree"></button>
+    <div class="caption-panel"><div class="eyebrow">02 / THE GLOWING TREE</div><h2>把圣诞树点亮吧</h2><p>挂上小布丁、蝴蝶结和星星。<br>这一夜，连愿望也闪闪发光。</p><button class="scene-action" data-action="tree">点亮圣诞树　✦</button></div>
+  </section>
+  <section class="page" data-page="3" aria-label="第三章，雪夜的秘密">
+    <img class="art" src="assets/night.webp" alt="布丁狗和朋友们裹着毯子望着圣诞雪夜，月亮上有圣诞老人的驯鹿雪橇剪影" draggable="false">
+    <div class="art-wash"></div><div class="topline"><span class="brand">CHAPTER 03</span><span class="chapter-tag">雪夜的秘密</span></div>
+    <button class="tap-zone night" aria-label="对着月亮许愿" data-action="wish"></button>
+    <div class="caption-panel"><div class="eyebrow">03 / A WISHFUL NIGHT</div><h2>雪夜的小小秘密</h2><p>月亮悄悄升起，窗外有铃铛声。<br>听说这时许愿，愿望会被温柔收藏。</p><button class="scene-action" data-action="wish">对着月亮许愿　☾</button></div>
+  </section>
+  <section class="page" data-page="4" aria-label="第四章，圣诞祝福">
+    <img class="art" src="assets/greeting.webp" alt="布丁狗坐在圣诞树下抱着亲手绘制的贺卡，周围有可爱动物朋友、热布丁和礼物" draggable="false">
+    <div class="art-wash"></div><div class="topline"><span class="brand">FINAL CHAPTER</span><span class="chapter-tag">专属祝福</span></div>
+    <button class="tap-zone cardtap" aria-label="拆开布丁狗的圣诞贺卡" data-action="card"></button>
+    <div class="caption-panel"><div class="eyebrow">04 / WITH LOVE, FROM PURIN</div><h2>有一封信，写给你</h2><p>「愿你的每一个平凡日子，<br>都能遇见一颗暖暖发亮的小星星。」</p><button class="scene-action primary" data-next>拆开专属祝福卡　♡</button></div>
+  </section>
+  <section class="page page--final" data-page="5" aria-label="定制并保存你的圣诞祝福卡">
+    <img class="art" src="assets/greeting.webp" alt="祝福卡背景中的布丁狗圣诞插画" draggable="false">
+    <div class="topline" style="color:#8e694d;text-shadow:none"><span class="brand">YOUR LITTLE CHRISTMAS CARD</span><span class="chapter-tag">收藏幸福</span></div>
+    <div class="final-frame">
+      <div class="final-kicker">A SPECIAL WISH FOR YOU</div><h2 class="final-title">把这份温暖，送给你</h2>
+      <div class="postcard" id="postcard" aria-label="祝福卡预览"><div class="emblem">🎀 🍮 🎄</div><div class="to" id="cardTo">亲爱的你：</div><div class="message" id="cardMessage">愿你被爱包围，也被快乐偏爱。<br>圣诞快乐，每一天都甜甜的！</div><div class="sign">WITH LOVE, FROM PURIN ♡</div></div>
+      <form class="edit" id="cardForm"><label for="name">收卡人的名字</label><input id="name" maxlength="14" placeholder="例如：小甜心" autocomplete="off"><label for="greeting">写一段圣诞祝福</label><textarea id="greeting" maxlength="76" rows="2">愿你被爱包围，也被快乐偏爱。\n圣诞快乐，每一天都甜甜的！</textarea>
+      <div class="edit-actions"><button type="button" id="shareBtn">分享这个故事 ♡</button><button class="save" type="button" id="saveBtn">生成可保存的祝福卡 ↓</button></div></form>
+      <p class="final-hint">祝福卡将保存为高清 PNG 图片 · 无需登录</p>
+    </div>
+  </section>
+  <div class="snow-layer" id="snow" aria-hidden="true"></div><div class="sparkle-layer" id="sparkles" aria-hidden="true"></div>
+  <div class="float-controls"><button type="button" class="round-control" id="soundBtn" aria-label="开启或关闭原创背景音乐" title="音乐开关">♫</button><button type="button" class="round-control" id="snowBtn" aria-label="开启或关闭飘雪效果" title="飘雪开关">❄</button></div>
+  <div class="footerbar"><button class="nav-btn" id="prev" aria-label="上一页" disabled>‹</button><div class="nav-center"><div class="progress" id="progress" aria-label="章节进度"></div><div class="nav-note" id="navNote">左右滑动翻页 · 1 / 6</div></div><button class="nav-btn" id="next" aria-label="下一页">›</button></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main></div>
+<div class="poster-sheet" id="posterSheet" role="dialog" aria-modal="true" aria-labelledby="posterTitle" hidden>
+  <div class="poster-inner">
+    <h2 class="poster-title" id="posterTitle">你的圣诞祝福卡已做好 ♡</h2>
+    <p class="poster-description">可以长按图片保存到手机相册</p>
+    <img class="poster-image" id="posterImage" alt="你为朋友制作的布丁狗圣诞祝福卡">
+    <div class="poster-buttons">
+      <button id="closePoster" type="button">返回绘本</button>
+      <a id="downloadPoster" class="download" href="#" download="布丁狗的圣诞祝福卡.png">保存图片 ↓</a>
+      <button id="shareImageBtn" type="button" hidden>发送贺卡 ↗</button>
+    </div>
+    <p class="poster-tip">微信或 iPhone 如未自动保存，请长按上方图片选择「存储图像」</p>
+  </div>
+</div>
+<script>
+(() => {
+'use strict';
+const $ = sel => document.querySelector(sel);
+const $$ = sel => [...document.querySelectorAll(sel)];
+const book = $('#book'); const pages = $$('.page'); const pageCount = pages.length; let current = 0;
+const sounds = [261.63,329.63,392,523.25,392,329.63,293.66,349.23,440,587.33,523.25,440,392,329.63,293.66,261.63];
+let audioCtx=null,audioTimer=null,playing=false,musicStep=0,snowing=true,cookies=0,lightsOn=false;
+const notes=['左右滑动翻页','烤一块星星饼干','点亮小小圣诞树','对着月亮许个愿','拆开一封温柔的信','保存属于你的祝福'];
+let toastTimer=0;
+function toast(msg){const box=$('#toast');box.textContent=msg;box.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>box.classList.remove('show'),2350)}
+function go(n){if(n<0||n>=pageCount||n===current)return;$('#toast').classList.remove('show');pages.forEach((p,i)=>{p.classList.toggle('active',i===n);p.classList.toggle('is-before',i<n);p.setAttribute('aria-hidden',i===n?'false':'true')});current=n;$('#prev').disabled=n===0;$('#next').disabled=n===pageCount-1;$('#navNote').textContent=notes[n]+' · '+(n+1)+' / '+pageCount;$$('.dot').forEach((d,i)=>{d.classList.toggle('selected',i===n);d.setAttribute('aria-current',i===n?'step':'false')});if(n===5)updateCard();}
+const progress=$('#progress');for(let i=0;i<pageCount;i++){const d=document.createElement('button');d.className='dot'+(i===0?' selected':'');d.type='button';d.title='第'+(i+1)+'页';d.setAttribute('aria-label','前往第'+(i+1)+'页');d.addEventListener('click',()=>go(i));progress.appendChild(d)}
+$('#prev').addEventListener('click',()=>go(current-1));$('#next').addEventListener('click',()=>go(current+1));$$('[data-next]').forEach(b=>b.addEventListener('click',()=>go(current+1)));
+// Pointer Events work for both iOS/Android touch and mouse drag.
+// Disambiguate tap, horizontal swipe and vertical scroll, with live page-drag feedback.
+let gesture=null;
+const nonSwipeTargets='button,input,textarea,select,a,form,[contenteditable="true"]';
+function tactile(){if(navigator.vibrate){try{navigator.vibrate(8)}catch(e){}}}
+function resetDrag(){
+  book.classList.remove('is-swiping');
+  pages.forEach(p=>{p.classList.remove('dragging','peeking');p.style.removeProperty('--peek-x');p.style.removeProperty('--drag-x');p.style.removeProperty('--drag-rotate')});
+}
+book.addEventListener('pointerdown', e=>{
+  if(!e.isPrimary || (e.pointerType==='mouse'&&e.button!==0) || e.target.closest(nonSwipeTargets) || $('#posterSheet').hidden===false)return;
+  if(!e.target.closest('.page.active'))return;
+  gesture={id:e.pointerId,from:current,x:e.clientX,y:e.clientY,at:performance.now(),dragging:false};
+},{passive:true});
+book.addEventListener('pointermove', e=>{
+  if(!gesture||e.pointerId!==gesture.id||current!==gesture.from)return;
+  const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;
+  if(!gesture.dragging&&(Math.abs(dx)<12||Math.abs(dx)<=Math.abs(dy)*1.2))return;
+  if(!gesture.dragging&&Math.abs(dy)>Math.abs(dx)*1.2){gesture=null;return;}
+  if(!gesture.dragging){try{book.setPointerCapture(e.pointerId)}catch(err){}}
+  gesture.dragging=true;
+  const target=current+(dx<0?1:-1),valid=target>=0&&target<pageCount;
+  let movement=valid?dx:dx*.19;
+  movement=Math.max(-book.clientWidth*.72,Math.min(book.clientWidth*.72,movement));
+  book.classList.add('is-swiping');
+  const page=pages[current];
+  page.classList.add('dragging');
+  page.style.setProperty('--drag-x',movement+'px');
+  page.style.setProperty('--drag-rotate',(movement/book.clientWidth*2.1)+'deg');
+  pages.forEach((p,i)=>{
+    if(valid&&i===target){p.classList.add('peeking');p.style.setProperty('--peek-x',(dx<0?'3%':'-3%'));}
+    else{p.classList.remove('peeking');p.style.removeProperty('--peek-x');}
+  });
+},{passive:true});
+book.addEventListener('pointerup', e=>{
+  if(!gesture||e.pointerId!==gesture.id)return;
+  const {x,y,dragging}=gesture;
+  gesture=null;
+  const dx=e.clientX-x,dy=e.clientY-y;
+  resetDrag();
+  if(dragging){
+    const threshold=Math.max(47,Math.min(book.clientWidth*.17,76));
+    if(Math.abs(dx)>threshold&&Math.abs(dx)>Math.abs(dy)*1.18){
+      const direction=dx<0?1:-1;
+      if(current+direction>=0&&current+direction<pageCount){go(current+direction);tactile();}
+    }
+    return;
+  }
+  // Touching the illustration itself should respond, rather than requiring a tiny star button.
+  if(Math.abs(dx)<10&&Math.abs(dy)<10&&e.target.matches('.art,.page,.art-wash,.magic-glow')){
+    if(current===0){go(1);tactile();}
+    else if(current>0&&current<5){
+      action(['','bake','tree','wish','card'][current],e);
+      tactile();
+    }
+  }
+},{passive:true});
+book.addEventListener('pointercancel',()=>{gesture=null;resetDrag();},{passive:true});
+document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;if(e.key==='ArrowRight')go(current+1);if(e.key==='ArrowLeft')go(current-1)});
+function burst(x,y,n=19){const layer=$('#sparkles'),rect=book.getBoundingClientRect();const xx=(x===null?rect.width*.5:x-rect.left),yy=(y===null?rect.height*.45:y-rect.top);for(let i=0;i<n;i++){const el=document.createElement('i');el.className='sparkle';el.textContent=i%3===0?'✧':(i%3===1?'✦':'·');const a=Math.random()*Math.PI*2;const r=26+Math.random()*100;el.style.cssText=`--x:${xx}px;--y:${yy}px;--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r}px;--sz:${12+Math.random()*13}px`;layer.appendChild(el);setTimeout(()=>el.remove(),1100)}}
+function action(type,event){tactile();const rect=book.getBoundingClientRect();const x=event?.clientX||null,y=event?.clientY||null;burst(x,y,type==='tree'?36:20);if(type==='bake'){cookies++;$('#cookieCount').hidden=false;$('#cookieCount').textContent='🍪 已收集 '+cookies+' 块';toast(['烤好啦！第一块奶油星星饼干送给你 🍪','香喷喷！布丁狗为你多烤了一块 ♡','甜蜜加倍，今天也要开开心心！'][Math.min(cookies-1,2)])}
+if(type==='tree'){lightsOn=!lightsOn;$('#treeGlow').classList.toggle('on',lightsOn);toast(lightsOn?'叮！圣诞树变得更闪亮了 ✨':'嘘，让星星休息一小会儿。')}
+if(type==='wish'){toast('愿望已经被月亮悄悄收好啦 ☾');for(let i=0;i<2;i++)setTimeout(()=>burst(rect.left+rect.width*(.7-Math.random()*.2),rect.top+rect.height*.23,15),i*270)}
+if(type==='card'){toast('这张卡片，是布丁狗为你准备的 ♡');setTimeout(()=>go(5),650)}}
+$$('[data-action]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();action(el.dataset.action,e)}));
+function makeSnow(){let layer=$('#snow');layer.textContent='';if(!snowing)return;const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;if(reduced)return;for(let i=0;i<26;i++){const s=document.createElement('span');s.className='snowflake';s.textContent=i%4===0?'✦':i%3===0?'❄':'✧';s.style.cssText=`--x:${Math.random()*100}%;--s:${7+Math.random()*9}px;--a:${.38+Math.random()*.55};--d:${8+Math.random()*11}s;--delay:${-Math.random()*20}s;--drift:${(Math.random()-.5)*95}px`;layer.appendChild(s)}}makeSnow();
+$('#snowBtn').addEventListener('click',()=>{snowing=!snowing;makeSnow();$('#snowBtn').classList.toggle('on',snowing);toast(snowing?'雪花又回来了 ❄️':'雪花暂时停下来啦')});
+function note(frequency,t,duration,volume,kind='sine'){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=kind;o.frequency.setValueAtTime(frequency,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(volume,t+.04);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+duration+.02)}
+function tick(){if(!playing||!audioCtx)return;const now=audioCtx.currentTime;const v=sounds[musicStep%sounds.length];note(v,now,.46,.033);if(musicStep%4===0)note(v/2,now,.72,.014,'triangle');if(musicStep%8===4)note(v*1.5,now,.25,.009);musicStep++}
+$('#soundBtn').addEventListener('click',async()=>{if(!playing){const AudioContextClass=window.AudioContext||window.webkitAudioContext;if(!AudioContextClass){toast('当前浏览器不支持背景音乐');return}audioCtx=audioCtx||new AudioContextClass();try{await audioCtx.resume()}catch(e){toast('请点击页面后重新开启声音');return}playing=true;tick();audioTimer=setInterval(tick,470);$('#soundBtn').classList.add('on');$('#soundBtn').textContent='♫';toast('一首原创的软绵绵铃音，送给你 ♪')}else{playing=false;clearInterval(audioTimer);await audioCtx.suspend();$('#soundBtn').classList.remove('on');toast('背景音乐已暂停')}});
+const DEFAULT='愿你被爱包围，也被快乐偏爱。\n圣诞快乐，每一天都甜甜的！';const nameInput=$('#name'),msgInput=$('#greeting');msgInput.value=DEFAULT;
+function getRecipient(){return nameInput.value.trim().slice(0,14)||'亲爱的你'}function getGreeting(){return msgInput.value.trim().slice(0,76)||DEFAULT}
+function updateCard(){$('#cardTo').textContent=getRecipient()+'：';$('#cardMessage').textContent=getGreeting()};nameInput.addEventListener('input',updateCard);msgInput.addEventListener('input',updateCard);
+function drawWrapped(ctx,text,x,y,maxWidth,lineHeight,maximumLines){let lines=0;for(const paragraph of text.split('\n')){let line='';for(const ch of paragraph){if(ctx.measureText(line+ch).width>maxWidth&&line){ctx.fillText(line,x,y+lines*lineHeight);lines++;if(lines>=maximumLines)return;line=ch}else{line+=ch}}ctx.fillText(line||' ',x,y+lines*lineHeight);lines++;if(lines>=maximumLines)return}return lines}
+function rounded(ctx,x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}
+async function makePoster(){const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1920;const ctx=canvas.getContext('2d');ctx.fillStyle='#f7e7d1';ctx.fillRect(0,0,1080,1920);const img=pages[4].querySelector('img');if(img.complete&&img.naturalWidth){const w=1080,h=1920,scale=Math.max(w/img.naturalWidth,h/img.naturalHeight);ctx.drawImage(img,(w-img.naturalWidth*scale)/2,(h-img.naturalHeight*scale)/2,img.naturalWidth*scale,img.naturalHeight*scale)}
+const shade=ctx.createLinearGradient(0,820,0,1920);shade.addColorStop(0,'rgba(255,246,230,0)');shade.addColorStop(.48,'rgba(255,247,229,.42)');shade.addColorStop(1,'rgba(255,247,229,.85)');ctx.fillStyle=shade;ctx.fillRect(0,0,1080,1920);
+ctx.textAlign='center';ctx.fillStyle='rgba(104,68,44,.93)';ctx.font='bold 33px Georgia, serif';ctx.fillText("PURIN'S CHRISTMAS STORY",540,135);
+ctx.fillStyle='rgba(255,252,242,.96)';rounded(ctx,85,1200,910,535,34);ctx.fill();ctx.strokeStyle='#d4b489';ctx.lineWidth=3;ctx.setLineDash([9,9]);rounded(ctx,106,1220,868,495,27);ctx.stroke();ctx.setLineDash([]);
+ctx.fillStyle='#a07853';ctx.font='34px "Noto Sans CJK SC","PingFang SC",sans-serif';ctx.fillText('🎀  🍮  🎄',540,1286);
+ctx.fillStyle='#896348';ctx.font='36px "Noto Serif CJK SC","Songti SC",serif';ctx.fillText(getRecipient()+'：',540,1361);
+ctx.fillStyle='#775039';ctx.font='35px "Noto Serif CJK SC","Songti SC",serif';drawWrapped(ctx,getGreeting(),540,1444,720,56,4);
+ctx.fillStyle='#b18760';ctx.font='bold 25px Georgia, serif';ctx.fillText('WITH LOVE, FROM PURIN ♡',540,1681);
+ctx.fillStyle='#815a3d';ctx.font='31px "Noto Serif CJK SC","Songti SC",serif';ctx.fillText('愿每个冬天都有人为你点亮星星',540,1803);
+return canvas}
+let posterUrl=null, posterBlob=null;
+const posterSheet=$('#posterSheet');
+function closePoster(){posterSheet.hidden=true;$('#saveBtn').focus({preventScroll:true});}
+$('#closePoster').addEventListener('click',closePoster);
+posterSheet.addEventListener('click', e=>{if(e.target===posterSheet)closePoster()});
+document.addEventListener('keydown', e=>{if(e.key==='Escape'&&!posterSheet.hidden)closePoster()});
+$('#shareImageBtn').addEventListener('click',async()=>{
+  if(!posterBlob||!navigator.share)return;
+  const file=new File([posterBlob],'布丁狗的圣诞祝福卡.png',{type:'image/png'});
+  try{await navigator.share({files:[file],title:'布丁狗的圣诞祝福卡'})}
+  catch(err){if(err.name!=='AbortError')toast('分享失败，请长按图片保存后发送。')}
+});
+$('#saveBtn').addEventListener('click',async()=>{
+  const btn=$('#saveBtn');btn.disabled=true;btn.textContent='正在绘制祝福卡…';
+  try{
+    const canvas=await makePoster();
+    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('PNG export failed')),'image/png'));
+    if(posterUrl)URL.revokeObjectURL(posterUrl);
+    posterBlob=blob;posterUrl=URL.createObjectURL(blob);
+    $('#posterImage').src=posterUrl;
+    $('#downloadPoster').href=posterUrl;
+    const shareFiles=Boolean(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([blob],'圣诞祝福卡.png',{type:'image/png'})]}));
+    $('#shareImageBtn').hidden=!shareFiles;
+    posterSheet.hidden=false;
+    $('#closePoster').focus({preventScroll:true});
+    tactile();
+  }catch(err){toast('图片生成失败，请重试或换一个浏览器。')}
+  finally{btn.disabled=false;btn.textContent='生成可保存的祝福卡 ↓';}
+});
+// iPhone's software keyboard should not obscure the editor controls.
+$$('#name, #greeting').forEach(field=>field.addEventListener('focus',()=>{
+  setTimeout(()=>field.scrollIntoView({block:'center',behavior:'smooth'}),240);
+}));
+$('#shareBtn').addEventListener('click',async()=>{const url=location.href;if(location.protocol==='file:'){toast('部署到线上后，就能直接分享故事链接啦 ♡');return}const info={title:'布丁狗的圣诞奇遇记',text:'送你一本暖暖的圣诞绘本，记得拆开最后的祝福卡 🎄',url};try{if(navigator.share){await navigator.share(info)}else if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(url);toast('链接已复制，快分享给喜欢的人 ♡')}else{prompt('复制这个网页链接分享给朋友：',url)}}catch(err){if(err.name!=='AbortError')toast('分享暂时不可用，可复制浏览器地址。')}});
+})();
+</script>
+</body>
+</html>
